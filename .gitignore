@@ -1,0 +1,26 @@
+# Arquivos do Python
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Ambientes virtuais
+venv/
+.venv/
+env/
+
+# Arquivos de configuração
+.env
+.venv
+config.py
+
+# Arquivos de log e dados
+*.log
+*.sqlite
+
+# Arquivos gerados
+dist/
+build/
+*.egg-info/
+.scannerwork
+sonar.bat
+qodana.yaml
