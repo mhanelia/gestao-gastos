@@ -12,10 +12,12 @@ env/
 .env
 .venv
 config.py
+.idea/
 
 # Arquivos de log e dados
 *.log
 *.sqlite
+*.db
 
 # Arquivos gerados
 dist/
