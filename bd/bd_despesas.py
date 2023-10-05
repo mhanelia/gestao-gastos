@@ -59,8 +59,8 @@ class DespesaBD:
                                        id_subcategoria = ?
                                    WHERE id = ? AND 
                                    id_usuario = ?"""
-    valores = (id_conta, id_cartao, descricao, valor, data, id_categoria, id_subcategoria, id_despesa, usuario_logado.id)
-    cursor.execute(atualizar_despesa, valores =)
+        valores = (id_conta, id_cartao, descricao, valor, data, id_categoria, id_subcategoria, id_despesa, usuario_logado.id)
+        cursor.execute(atualizar_despesa, valores)
         bd.commit()
         print("Despesa atualizada com sucesso")
 

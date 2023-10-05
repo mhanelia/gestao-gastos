@@ -8,8 +8,9 @@ usuario_logado = UsuarioLogado()
 class CartaoUsuario:
 
     @staticmethod
-    def criar(id_conta, nome, limite, bandeira, cartao_padrao, ultimos_digitos, ativo, vencimento_fatura, fechamento_fatura):
-        criar_cartao= f'''INSERT INTO cartao (
+    def criar(id_conta, nome, limite, bandeira, cartao_padrao, ultimos_digitos, ativo, vencimento_fatura,
+              fechamento_fatura):
+        criar_cartao = '''INSERT INTO cartao (
                        id_usuario,
                        id_conta,
                        nome,
@@ -22,26 +23,15 @@ class CartaoUsuario:
                        fechamento_fatura
                    )
                    VALUES (
-                       {usuario_logado.id},
-                       {id_conta},
-                       '{nome}',
-                       {limite},
-                       '{bandeira}',
-                       {cartao_padrao},
-                       {ultimos_digitos},
-                       {ativo},
-                       '{vencimento_fatura}',
-                       '{fechamento_fatura}'
-                       
+                       ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
                    )'''
 
-        cursor.execute(criar_cartao)
+        cursor.execute(criar_cartao, (usuario_logado.id, id_conta, nome, limite, bandeira, cartao_padrao, ultimos_digitos, ativo, vencimento_fatura, fechamento_fatura))
         bd.commit()
-        
 
     @staticmethod
     def ler():
-        ler_cartao = f'''SELECT id,
+        ler_cartao = '''SELECT id,
                             id_conta,
                             nome,
                             limite,
@@ -52,10 +42,10 @@ class CartaoUsuario:
                             vencimento_fatura,
                             fechamento_fatura
                         FROM cartao
-                        WHERE id_usuario = {usuario_logado.id}
+                        WHERE id_usuario = ?
                         AND ativo = 1'''
 
-        cursor.execute(ler_cartao)
+        cursor.execute(ler_cartao, usuario_logado.id)
         cartao = cursor.fetchall()
 
         if cartao:
@@ -65,14 +55,12 @@ class CartaoUsuario:
 
     @staticmethod
     def atualizar_limite(limite, id_cartao):
-        atualizar_saldo = f"UPDATE cartao SET limite = {limite} WHERE id = {id_cartao}"
-        cursor.execute(atualizar_saldo)
+        atualizar_saldo = "UPDATE cartao SET limite = ? WHERE id = ?"
+        cursor.execute(atualizar_saldo, (limite, id_cartao))
         bd.commit()
-
 
     @staticmethod
     def excluir(id_cartao):
-        excluir_conta = f'UPDATE cartao SET ativo = 0 WHERE id_usuario = {usuario_logado.id} AND id = {id_cartao}'
-        cursor.execute(excluir_conta)
+        excluir_conta = "UPDATE cartao SET ativo = 0 WHERE id_usuario = ? AND id = ?"
+        cursor.execute(excluir_conta, (usuario_logado.id, id_cartao))
         bd.commit()
-

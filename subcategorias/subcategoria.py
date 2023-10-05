@@ -26,7 +26,7 @@ class Subcategoria:
         subcategoria.excluir(id_subcategoria)
 
     @staticmethod
-    def ler(id_categoria):
+    def ler(id_categoria=None):
         sistema.limpar_terminal()
         if not id_categoria:
             id_categoria = sistema.input_obrigatorio("Você gostaria de ler as subcategorias de qual categoria?\n" +
