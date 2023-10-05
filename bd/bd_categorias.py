@@ -1,4 +1,3 @@
-import sqlite3
 from usuarios.sessao import UsuarioLogado
 from bd.conexao_bd import conectar_bd
 
@@ -20,7 +19,6 @@ class CategoriasBD:
         ler_categorias = "SELECT id, nome FROM categorias WHERE id_usuario = ? AND ativa = 1"
         cursor.execute(ler_categorias, (usuario_logado.id,))
         categorias = cursor.fetchall()
-        print(categorias)
         return categorias
 
     @staticmethod
