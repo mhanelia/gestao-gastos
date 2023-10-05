@@ -5,7 +5,7 @@ bd, cursor, error_bd = conectar_bd()
 usuario_logado = UsuarioLogado()
 
 
-class CartaoUsuario:
+class CartaoBD:
 
     @staticmethod
     def criar(id_conta, nome, limite, bandeira, cartao_padrao, ultimos_digitos, ativo, vencimento_fatura,
@@ -26,8 +26,10 @@ class CartaoUsuario:
                        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
                    )'''
 
-        cursor.execute(criar_cartao, (usuario_logado.id, id_conta, nome, limite, bandeira, cartao_padrao, ultimos_digitos, ativo, vencimento_fatura, fechamento_fatura))
+        cursor.execute(criar_cartao, (usuario_logado.id, id_conta, nome, limite, bandeira, cartao_padrao,
+                                      ultimos_digitos, ativo, vencimento_fatura, fechamento_fatura))
         bd.commit()
+        print("Cartão criado com sucesso")
 
     @staticmethod
     def ler():
@@ -45,7 +47,7 @@ class CartaoUsuario:
                         WHERE id_usuario = ?
                         AND ativo = 1'''
 
-        cursor.execute(ler_cartao, usuario_logado.id)
+        cursor.execute(ler_cartao, (usuario_logado.id,))
         cartao = cursor.fetchall()
 
         if cartao:
@@ -58,9 +60,11 @@ class CartaoUsuario:
         atualizar_saldo = "UPDATE cartao SET limite = ? WHERE id = ?"
         cursor.execute(atualizar_saldo, (limite, id_cartao))
         bd.commit()
+        print("Limite atualizado com sucesso")
 
     @staticmethod
     def excluir(id_cartao):
         excluir_conta = "UPDATE cartao SET ativo = 0 WHERE id_usuario = ? AND id = ?"
         cursor.execute(excluir_conta, (usuario_logado.id, id_cartao))
         bd.commit()
+        print("Cartão excluído com sucesso")

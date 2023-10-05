@@ -41,13 +41,14 @@ class TestCategoriasBD(unittest.TestCase):
 
     def test_criar_categoria(self):
         # cria a categoria
-        CategoriasBD.criar("Lazer")
+        categoria = CategoriasBD.criar("Lazer")
         self.assertEqual(len(util_select_all()), 1)
 
     def test_ler_categorias(self):
         util_insert()
         categorias = CategoriasBD.ler()
         self.assertEqual(len(categorias), 1)
+        print("Categoria lida: ", categorias[0][1])
 
     def test_atualizar_categoria(self):
         util_insert()
