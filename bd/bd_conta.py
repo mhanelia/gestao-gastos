@@ -6,7 +6,7 @@ bd, cursor, error_bd = conectar_bd()
 usuario_logado = UsuarioLogado()
 
 
-class ContaUsuario:
+class ContaDB:
 
     @staticmethod
     def criar(nome, banco, categoria, saldo, conta_padrao):
@@ -22,6 +22,7 @@ class ContaUsuario:
         else:
             ler_conta = "SELECT id, nome, banco, categoria, saldo, conta_padrao FROM contas WHERE id_usuario = ? AND ativa = 1"
             cursor.execute(ler_conta, (usuario_logado.id,))
+        bd.commit()
         conta = cursor.fetchall()
         if conta:
             return conta
@@ -33,11 +34,13 @@ class ContaUsuario:
         excluir_conta = "UPDATE contas SET ativa = 0 WHERE id_usuario = ? AND id = ?"
         cursor.execute(excluir_conta, (usuario_logado.id, id_conta))
         bd.commit()
+        print("Conta excluída com sucesso")
 
     @staticmethod
     def ler_saldo(id_conta):
         ler_saldo = "SELECT saldo FROM contas WHERE id_usuario = ? AND id = ?"
         cursor.execute(ler_saldo, (usuario_logado.id, id_conta))
+        bd.commit()
         saldo = cursor.fetchall()
         return saldo
 
