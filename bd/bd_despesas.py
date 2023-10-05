@@ -9,21 +9,27 @@ class DespesaBD:
 
     @staticmethod
     def criar(id_conta, id_cartao, descricao, valor, data, id_categoria, id_subcategoria):
-        try:
-            criar_despesa = """
-                INSERT INTO despesas 
-                (id_usuario, id_conta, id_cartao, descricao, valor, data, id_categoria, id_subcategoria) 
-                VALUES 
-                (?, ?, ?, ?, ?, ?, ?, ?)
-            """
-            cursor.execute(criar_despesa, (
-                usuario_logado.id, id_conta, id_cartao, descricao, valor, data, id_categoria, id_subcategoria))
-            bd.commit()
-            return True
+        # TODO - campo integer salvando string
+        campos = [id_conta, id_cartao, descricao, valor, data, id_categoria, id_subcategoria]
 
-        except Exception as error:
-            print("Ocorreu uma falha: ", error)
-            return False
+        if all(campo is not None for campo in campos):
+            try:
+                criar_despesa = """
+                    INSERT INTO despesas 
+                    (id_usuario, id_conta, id_cartao, descricao, valor, data, id_categoria, id_subcategoria) 
+                    VALUES 
+                    (?, ?, ?, ?, ?, ?, ?, ?)
+                """
+                cursor.execute(criar_despesa, (
+                    usuario_logado.id, id_conta, id_cartao, descricao, valor, data, id_categoria, id_subcategoria))
+                bd.commit()
+                return True
+
+            except Exception as error:
+                print("Ocorreu uma falha: ", error)
+                return False
+        else:
+            raise ValueError('Todos os campos devem ser informados')
 
     @staticmethod
     def listar():
@@ -43,43 +49,26 @@ class DespesaBD:
                                 WHERE d.id_usuario = ? 
                                 AND d.ativa = 1'''
 
-        cursor.execute(listar_despesas, usuario_logado.id)
+        cursor.execute(listar_despesas, (usuario_logado.id,))
         despesas = cursor.fetchall()
         return despesas
 
     @staticmethod
-    def atualizar(id_despesa, id_conta, id_cartao, descricao, valor, data, id_categoria, id_subcategoria):
-        atualizar_despesa = """UPDATE despesas
-                                   SET id_conta = ?,
-                                       id_cartao = ?,
-                                       descricao = ?,
-                                       valor = ?,
-                                       data = ?,
-                                       id_categoria = ?,
-                                       id_subcategoria = ?
-                                   WHERE id = ? AND 
-                                   id_usuario = ?"""
-        valores = (id_conta, id_cartao, descricao, valor, data, id_categoria, id_subcategoria, id_despesa, usuario_logado.id)
-        cursor.execute(atualizar_despesa, valores)
-        bd.commit()
-        print("Despesa atualizada com sucesso")
-
-    @staticmethod
     def excluir(id_despesa):
-        excluir_despesa = f"UPDATE despesas SET ativa = 0 WHERE id = {id_despesa}"
-        cursor.execute(excluir_despesa)
+        excluir_despesa = "UPDATE despesas SET ativa = 0 WHERE id = ?"
+        cursor.execute(excluir_despesa, (id_despesa,))
         bd.commit()
         print("Despesa excluída com sucesso")
 
     @staticmethod
-    def atualizar2(id_despesa, id_conta=None, id_cartao=None, descricao=None, valor=None, data=None, id_categoria=None,
+    def atualizar(id_despesa, id_conta=None, id_cartao=None, descricao=None, valor=None, data=None, id_categoria=None,
                    id_subcategoria=None):
         try:
             atualizar_despesa = 'UPDATE despesas SET '
 
             if id_conta is not None:
                 atualizar_despesa += f'id_conta = {id_conta}, '
-            if id_cartao != '':
+            if id_cartao is not None:
                 atualizar_despesa += f'id_cartao = {id_cartao} , '
             if descricao is not None:
                 atualizar_despesa += f"descricao = '{descricao}', "
@@ -101,12 +90,9 @@ class DespesaBD:
             print("Erro no banco de dados:", e)
             bd.rollback()
 
-
-
     @staticmethod
     def ler(id_despesa):
-        listar_despesa = f'SELECT * FROM despesas WHERE id = {id_despesa}'
-        cursor.execute(listar_despesa)
+        listar_despesa = "SELECT * FROM despesas WHERE id = ?"
+        cursor.execute(listar_despesa, (id_despesa,))
         dados_despesa = cursor.fetchall()
         return dados_despesa
-

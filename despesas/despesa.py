@@ -77,7 +77,7 @@ class DespesasUsuario:
         if valor > 0:
             valor_despesa = despesa_bd.ler(id_despesa)[0][5]
             novo_saldo = conta.calcular_novo_saldo(id_conta, valor_despesa, valor)
-            despesa_bd.atualizar2(id_despesa, id_conta, id_cartao, descricao, valor, data, id_categoria,
+            despesa_bd.atualizar(id_despesa, id_conta, id_cartao, descricao, valor, data, id_categoria,
                                   id_subcategoria)
             conta.atualizar_saldo_conta(id_conta, novo_saldo)
         else:
