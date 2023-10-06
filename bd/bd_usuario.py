@@ -1,12 +1,11 @@
-import sqlite3
-from usuarios.sessao import UsuarioLogado
 from bd.bd_categorias import CategoriasBD
-from bd.bd_subcategorias import Subcategorias
+from bd.bd_subcategorias import SubcategoriasBD
 from bd.conexao_bd import conectar_bd
+from usuarios.sessao import UsuarioLogado
 
 bd, cursor, error_bd = conectar_bd()
 categoria = CategoriasBD()
-subcategoria = Subcategorias()
+subcategoria = SubcategoriasBD()
 usuario_logado = UsuarioLogado()
 
 
