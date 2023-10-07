@@ -1,11 +1,11 @@
 from usuarios.sessao import UsuarioLogado
 from bd.conexao_bd import conectar_bd
-from bd.bd_cartao import CartaoUsuario
+from bd.bd_cartao import CartaoBD
 import sistema
 from tabulate import tabulate
 
 usuario_logado = UsuarioLogado()
-cartao = CartaoUsuario()
+cartao = CartaoBD()
 bd, cursor, error_bd = conectar_bd()
 
 

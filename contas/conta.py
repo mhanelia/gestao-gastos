@@ -1,13 +1,13 @@
 import sqlite3
 from usuarios.sessao import UsuarioLogado
 import sistema
-from bd.bd_conta import ContaUsuario
+from bd.bd_conta import ContaDB
 from tabulate import tabulate
 
 bd = sqlite3.connect("./bd/bancodedados.db", check_same_thread=False)
 cursor = bd.cursor()
 usuario_logado = UsuarioLogado()
-conta = ContaUsuario()
+conta = ContaDB()
 
 
 

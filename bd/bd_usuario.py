@@ -1,21 +1,20 @@
-import sqlite3
-from usuarios.sessao import UsuarioLogado
 from bd.bd_categorias import CategoriasBD
-from bd.bd_subcategorias import Subcategorias
+from bd.bd_subcategorias import SubcategoriasBD
 from bd.conexao_bd import conectar_bd
+from usuarios.sessao import UsuarioLogado
 
 bd, cursor, error_bd = conectar_bd()
 categoria = CategoriasBD()
-subcategoria = Subcategorias()
+subcategoria = SubcategoriasBD()
 usuario_logado = UsuarioLogado()
 
 
-class CriarUsuarios:
+class UsuarioBD:
 
     @staticmethod
     def criar(nome, email, senha):
-        criar_usuarios = f"INSERT INTO usuarios (nome, email, senha) VALUES ('{nome}', '{email}', '{senha}')"
-        cursor.execute(criar_usuarios)
+        criar_usuarios = "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)"
+        cursor.execute(criar_usuarios, (nome, email, senha))
         bd.commit()
         id_novo_usuario = cursor.lastrowid
         categoria.inserir_categoria_padrao()
@@ -30,19 +29,34 @@ class CriarUsuarios:
         return usuarios
 
     @staticmethod
-    def excluir(del_usuario):
-        excluir_usuario = f'UPDATE contas SET ativa = 0 WHERE id_usuario = {del_usuario}'
-        cursor.execute(excluir_usuario)
-        bd.commit()
+    def excluir(id_usuario):
+        excluir_usuario = "UPDATE usuarios SET ativo = 0 WHERE id = ?"
+
+        if usuario_logado.perfil == 'admin':
+            if usuario_logado.id != id_usuario:
+                cursor.execute(excluir_usuario, (id_usuario,))
+                bd.commit()
+            else:
+                return "Não é possível excluir o próprio administrador"
+        elif usuario_logado.perfil == 'usuario' and usuario_logado.id != id_usuario:
+            return "Usuário não tem permissão para excluir"
+        else:
+            cursor.execute(excluir_usuario, (id_usuario,))
+            bd.commit()
 
     @staticmethod
     def verificar_login(email, senha):
-        verificar_login = f"SELECT * FROM usuarios WHERE email = '{email}' AND senha = '{senha}'"
-        cursor.execute(verificar_login)
-        resultado = cursor.fetchall()
+        verificar_login = """
+            SELECT id, nome, perfil 
+            FROM usuarios 
+            WHERE email = ? AND senha = ?
+        """
+        cursor.execute(verificar_login, (email, senha))
+        resultado = cursor.fetchone()
+        bd.commit()
 
         if resultado:
-            usuario_logado.id = resultado[0][0]
-            usuario_logado.nome = resultado[0][1]
+            usuario_logado.id, usuario_logado.nome, usuario_logado.perfil = resultado
         else:
-            print("Usuário não encontrado")
+            return "Usuário não encontrado"
+

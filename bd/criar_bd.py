@@ -1,4 +1,3 @@
-import sqlite3
 from bd.conexao_bd import conectar_bd
 
 bd, cursor, error_bd = conectar_bd()
@@ -12,7 +11,9 @@ class CriarBanco:
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome TEXT,
             email TEXT,
-            senha TEXT
+            senha TEXT,
+            perfil TEXT (30) NOT NULL DEFAULT usuario,
+            ativo BOOLEAN DEFAULT 1
             )'''
         cursor.execute(criar_tabela_usuarios)
         bd.commit()
@@ -27,7 +28,7 @@ class CriarBanco:
                 banco TEXT,
                 categoria TEXT,
                 saldo REAL,
-                ativa BOOLEAN DEFAULT 0,
+                ativa BOOLEAN DEFAULT 1,
                 conta_padrao BOOLEAN DEFAULT 0
                 )'''
         cursor.execute(criar_tabela_contas)
@@ -45,7 +46,7 @@ class CriarBanco:
                 bandeira TEXT,
                 cartao_padrao BOOLEAN DEFAULT 0,
                 ultimos_digitos INTEGER,
-                ativo BOOLEAN DEFAULT 0,
+                ativo BOOLEAN DEFAULT 1,
                 vencimento_fatura TEXT,
                 fechamento_fatura TEXT
                 )'''

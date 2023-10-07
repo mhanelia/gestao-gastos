@@ -1,11 +1,12 @@
-import sistema
 from tabulate import tabulate
-from bd.bd_subcategorias import Subcategorias
-from usuarios.sessao import UsuarioLogado
+
+import sistema
+from bd.bd_subcategorias import SubcategoriasBD
 from categorias.categoria import Categoria
+from usuarios.sessao import UsuarioLogado
 
 usuario_logado = UsuarioLogado()
-subcategoria = Subcategorias()
+subcategoria = SubcategoriasBD()
 categoria = Categoria()
 
 

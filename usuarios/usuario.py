@@ -1,12 +1,12 @@
 from contas.menu_conta import criar_conta
-from bd.bd_usuario import CriarUsuarios
+from bd.bd_usuario import UsuarioBD
 from usuarios.sessao import UsuarioLogado
 from despesas.menu_despesas import menu_despesas
 from contas.conta import Conta
 from bd.conexao_bd import conectar_bd
 
 bd, cursor, error_bd = conectar_bd()
-usuarios = CriarUsuarios()
+usuarios = UsuarioBD()
 usuario_logado = UsuarioLogado()
 dados_conta = Conta()
 
