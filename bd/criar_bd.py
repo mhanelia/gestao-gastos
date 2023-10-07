@@ -12,7 +12,9 @@ class CriarBanco:
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome TEXT,
             email TEXT,
-            senha TEXT
+            senha TEXT,
+            perfil TEXT (30) NOT NULL DEFAULT usuario,
+            ativo BOOLEAN DEFAULT 1
             )'''
         cursor.execute(criar_tabela_usuarios)
         bd.commit()

@@ -53,7 +53,7 @@ class CartaoBD:
         if cartao:
             return cartao
         else:
-            print("Usuário não possui cartões cadastrados")
+            return("Usuário não possui cartões cadastrados")
 
     @staticmethod
     def atualizar_limite(limite, id_cartao):

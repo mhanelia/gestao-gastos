@@ -36,12 +36,12 @@ class TestCategoriasBD(unittest.TestCase):
         cursor.execute("DROP TABLE IF EXISTS subcategorias")
         bd.commit()
 
-    def test_excluir_(self):
+    def test_excluir(self):
         util_insert()
         SubcategoriasBD.excluir(1)
         self.assertEqual(len(util_select_all()), 0)
 
-    def test_criar_(self):
+    def test_criar(self):
         SubcategoriasBD.criar("Lazer", 1)
         self.assertEqual(len(util_select_all()), 1)
 

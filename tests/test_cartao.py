@@ -52,6 +52,9 @@ class TestCategoriasBD(unittest.TestCase):
         self.assertEqual(len(cartao), 1)
         print("Cartão lido: ", cartao[0][2])
 
+    def test_ler_erro(self):
+        self.assertEqual(CartaoBD.ler(), "Usuário não possui cartões cadastrados")
+        
     def test_atualizar_limite(self):
         util_insert()
         CartaoBD.atualizar_limite(1000, 1)

@@ -6,4 +6,5 @@ class UsuarioLogado:
             cls._instance = super(UsuarioLogado, cls).__new__(cls)
             cls._instance.id = None
             cls._instance.nome = None
+            cls._instance.perfil = None
         return cls._instance
