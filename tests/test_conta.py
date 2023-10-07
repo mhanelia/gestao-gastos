@@ -2,12 +2,14 @@ import unittest
 from unittest.mock import patch
 
 from bd.bd_conta import ContaDB
-from usuarios.sessao import UsuarioLogado
 from bd.conexao_bd import conectar_bd
+from bd.criar_bd import CriarBanco
+from usuarios.sessao import UsuarioLogado
 
 bd, cursor, error_bd = conectar_bd()
 usuario_logado = UsuarioLogado()
 usuario_logado.id = 1
+
 
 
 def util_insert():
@@ -27,18 +29,7 @@ def util_select_all():
 class TestContasBD(unittest.TestCase):
 
     def setUp(self):
-        # cria tabela de categorias em memória
-        cursor.execute('''CREATE TABLE IF NOT EXISTS contas (
-            id           INTEGER PRIMARY KEY AUTOINCREMENT,
-            id_usuario   INTEGER,
-            nome         TEXT,
-            banco        TEXT,
-            categoria    TEXT,
-            saldo        REAL,
-            ativa        BOOLEAN DEFAULT 1,
-            conta_padrao BOOLEAN DEFAULT 0
-        )''')
-        bd.commit()
+        CriarBanco.criar_tabela_contas()
 
     def tearDown(self):
         # limpa tabela após cada teste
@@ -47,6 +38,7 @@ class TestContasBD(unittest.TestCase):
 
     def test_excluir(self):
         util_insert()
+        print(util_select_all())
         ContaDB.excluir(1)
         self.assertEqual(len(util_select_all()), 0)
 

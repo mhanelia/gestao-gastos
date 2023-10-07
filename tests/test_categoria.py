@@ -1,7 +1,9 @@
 import unittest
+
 from bd.bd_categorias import CategoriasBD
-from usuarios.sessao import UsuarioLogado
 from bd.conexao_bd import conectar_bd
+from bd.criar_bd import CriarBanco
+from usuarios.sessao import UsuarioLogado
 
 bd, cursor, error_bd = conectar_bd()
 usuario_logado = UsuarioLogado()
@@ -23,11 +25,7 @@ class TestCategoriasBD(unittest.TestCase):
 
     def setUp(self):
         # cria tabela de categorias em memória
-        cursor.execute("CREATE TABLE IF NOT EXISTS categorias ("
-                       "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                       "id_usuario INTEGER, "
-                       "nome TEXT, "
-                       "ativa BOOLEAN DEFAULT 1)")
+        CriarBanco.criar_tabela_categorias()
 
     def tearDown(self):
         # limpa tabela após cada teste

@@ -1,7 +1,9 @@
 import unittest
+
 from bd.bd_subcategorias import SubcategoriasBD
-from usuarios.sessao import UsuarioLogado
 from bd.conexao_bd import conectar_bd
+from bd.criar_bd import CriarBanco
+from usuarios.sessao import UsuarioLogado
 
 bd, cursor, error_bd = conectar_bd()
 usuario_logado = UsuarioLogado()
@@ -23,13 +25,7 @@ class TestCategoriasBD(unittest.TestCase):
 
     def setUp(self):
         # cria tabela de categorias em memória
-        cursor.execute('''CREATE TABLE IF NOT EXISTS subcategorias(
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        id_usuario INTEGER,
-                        id_categoria INTEGER,
-                        nome TEXT,
-                        ativa BOOLEAN DEFAULT 1)''')
-        bd.commit()
+        CriarBanco.criar_tabela_subcategorias()
 
     def tearDown(self):
         # limpa tabela após cada teste
@@ -43,13 +39,14 @@ class TestCategoriasBD(unittest.TestCase):
 
     def test_criar(self):
         SubcategoriasBD.criar("Lazer", 1)
+        print(util_select_all())
         self.assertEqual(len(util_select_all()), 1)
 
     def test_ler(self):
         util_insert()
         subcategorias = SubcategoriasBD.ler(1)
-        self.assertEqual(len(subcategorias), 1)
         print("Categoria lida: ", subcategorias[0][1])
+        self.assertEqual(len(subcategorias), 1)
 
     def test_atualizar(self):
         util_insert()

@@ -1,8 +1,10 @@
 import unittest
 from unittest.mock import patch
+
 from bd.bd_despesas import DespesaBD
-from usuarios.sessao import UsuarioLogado
 from bd.conexao_bd import conectar_bd
+from bd.criar_bd import CriarBanco
+from usuarios.sessao import UsuarioLogado
 
 bd, cursor, error_bd = conectar_bd()
 usuario_logado = UsuarioLogado()
@@ -26,36 +28,11 @@ def util_select_all():
 class TestContasBD(unittest.TestCase):
 
     def setUp(self):
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS categorias (
-                id INTEGER PRIMARY KEY,
-                nome TEXT
-            )
-        ''')
-
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS subcategorias (
-                id INTEGER PRIMARY KEY,
-                nome TEXT
-            )
-        ''')
-
-        # cria tabela de categorias em memória
-        cursor.execute('''CREATE TABLE IF NOT EXISTS despesas (
-                        id              INTEGER PRIMARY KEY AUTOINCREMENT,
-                        id_usuario      INTEGER,
-                        id_conta        INTEGER,
-                        id_cartao       INTEGER,
-                        descricao       TEXT,
-                        valor           REAL,
-                        data            TEXT,
-                        id_categoria    INTEGER,
-                        id_subcategoria INTEGER,
-                        ativa           BOOLEAN DEFAULT 1
-                        )''')
+        CriarBanco.criar_tabela_categorias()
+        CriarBanco.criar_tabela_subcategorias()
+        CriarBanco.criar_tabela_despesas()
         cursor.execute('INSERT INTO categorias (nome) VALUES ("Categoria 1")')
         cursor.execute('INSERT INTO subcategorias (nome) VALUES ("Subcategoria 1")')
-
         bd.commit()
 
     def tearDown(self):

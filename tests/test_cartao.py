@@ -1,7 +1,9 @@
 import unittest
+
 from bd.bd_cartao import CartaoBD
-from usuarios.sessao import UsuarioLogado
 from bd.conexao_bd import conectar_bd
+from bd.criar_bd import CriarBanco
+from usuarios.sessao import UsuarioLogado
 
 bd, cursor, error_bd = conectar_bd()
 usuario_logado = UsuarioLogado()
@@ -23,20 +25,7 @@ def util_select_all():
 class TestCategoriasBD(unittest.TestCase):
 
     def setUp(self):
-        cursor.execute('''CREATE TABLE IF NOT EXISTS cartao (
-                        id                INTEGER PRIMARY KEY AUTOINCREMENT,
-                        id_usuario        INTEGER,
-                        id_conta          INTEGER,
-                        nome              TEXT,
-                        limite            REAL,
-                        bandeira          TEXT,
-                        cartao_padrao     BOOLEAN DEFAULT 0,
-                        ultimos_digitos   INTEGER,
-                        ativo             BOOLEAN DEFAULT 1,
-                        vencimento_fatura TEXT,
-                        fechamento_fatura TEXT
-                    )''')
-        bd.commit()
+        CriarBanco.criar_tabela_cartao()
 
     def tearDown(self):
         cursor.execute("DROP TABLE IF EXISTS cartao")

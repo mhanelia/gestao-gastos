@@ -1,4 +1,3 @@
-import sqlite3
 from bd.conexao_bd import conectar_bd
 
 bd, cursor, error_bd = conectar_bd()
@@ -29,7 +28,7 @@ class CriarBanco:
                 banco TEXT,
                 categoria TEXT,
                 saldo REAL,
-                ativa BOOLEAN DEFAULT 0,
+                ativa BOOLEAN DEFAULT 1,
                 conta_padrao BOOLEAN DEFAULT 0
                 )'''
         cursor.execute(criar_tabela_contas)
