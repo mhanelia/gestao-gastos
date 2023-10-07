@@ -7,7 +7,6 @@ from usuarios.sessao import UsuarioLogado
 
 bd, cursor, error_bd = conectar_bd()
 usuario_logado = UsuarioLogado()
-usuario_logado.id = 1
 
 
 def util_insert():
@@ -22,8 +21,7 @@ def util_select_all():
     return registros
 
 
-class TestCategoriasBD(unittest.TestCase):
-
+class TestCartaoBD(unittest.TestCase):
     def setUp(self):
         CriarBanco.criar_tabela_cartao()
 
@@ -32,6 +30,7 @@ class TestCategoriasBD(unittest.TestCase):
         bd.commit()
 
     def test_criar(self):
+        usuario_logado.id = 1
         CartaoBD.criar(1, "Cartão 1", 1000, "Visa", 0, 1234, 1, "12/12/2021", "12/12/2021")
         self.assertEqual(len(util_select_all()), 1)
 
@@ -43,7 +42,7 @@ class TestCategoriasBD(unittest.TestCase):
 
     def test_ler_erro(self):
         self.assertEqual(CartaoBD.ler(), "Usuário não possui cartões cadastrados")
-        
+
     def test_atualizar_limite(self):
         util_insert()
         CartaoBD.atualizar_limite(1000, 1)
@@ -54,6 +53,7 @@ class TestCategoriasBD(unittest.TestCase):
         util_insert()
         CartaoBD.excluir(1)
         self.assertEqual(len(util_select_all()), 0)
+
 
 if __name__ == '__main__':
     unittest.main()

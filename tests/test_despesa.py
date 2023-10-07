@@ -25,7 +25,7 @@ def util_select_all():
     return registros
 
 
-class TestContasBD(unittest.TestCase):
+class TestDespesaBD(unittest.TestCase):
 
     def setUp(self):
         CriarBanco.criar_tabela_categorias()

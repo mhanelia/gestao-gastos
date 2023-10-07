@@ -26,7 +26,7 @@ def util_select_all():
     return registros
 
 
-class TestContasBD(unittest.TestCase):
+class TestContaBD(unittest.TestCase):
 
     def setUp(self):
         CriarBanco.criar_tabela_contas()

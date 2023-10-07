@@ -21,7 +21,7 @@ def util_select_all():
     return registros
 
 
-class TestCategoriasBD(unittest.TestCase):
+class TestSubcategoriaBD(unittest.TestCase):
 
     def setUp(self):
         # cria tabela de categorias em memória

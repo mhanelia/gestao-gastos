@@ -1,5 +1,5 @@
-from usuarios.sessao import UsuarioLogado
 from bd.conexao_bd import conectar_bd
+from usuarios.sessao import UsuarioLogado
 
 bd, cursor, error_bd = conectar_bd()
 usuario_logado = UsuarioLogado()
@@ -25,7 +25,6 @@ class CartaoBD:
                    VALUES (
                        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
                    )'''
-
         cursor.execute(criar_cartao, (usuario_logado.id, id_conta, nome, limite, bandeira, cartao_padrao,
                                       ultimos_digitos, ativo, vencimento_fatura, fechamento_fatura))
         bd.commit()
@@ -53,7 +52,7 @@ class CartaoBD:
         if cartao:
             return cartao
         else:
-            return("Usuário não possui cartões cadastrados")
+            return "Usuário não possui cartões cadastrados"
 
     @staticmethod
     def atualizar_limite(limite, id_cartao):

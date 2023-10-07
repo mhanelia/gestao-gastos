@@ -46,7 +46,7 @@ class CriarBanco:
                 bandeira TEXT,
                 cartao_padrao BOOLEAN DEFAULT 0,
                 ultimos_digitos INTEGER,
-                ativo BOOLEAN DEFAULT 0,
+                ativo BOOLEAN DEFAULT 1,
                 vencimento_fatura TEXT,
                 fechamento_fatura TEXT
                 )'''
